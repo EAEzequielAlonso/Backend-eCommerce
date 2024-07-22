@@ -32,6 +32,58 @@
 $ npm install
 ```
 
+## Variables de entorno necesarias
+
+```crear archivo ".env" (en el directorio raiz)
+
+DB_NAME
+DB_HOST
+DB_PORT
+DB_USERNAME
+DB_PASSWORD
+CLOUDINARY_CLOUD_NAME
+CLOUDINARY_API_SECRET
+CLOUDINARY_API_KEY
+JWT_SECRET
+POSTGRES_DB
+POSTGRES_PASSWORD
+
+```
+
+## Para ejecutar con Docker
+
+```en el archivo ".env" debe reemplazar el valor del DB_HOST local por el HOST de docker "postgresdb"
+
+DB_HOST = postgresdb
+
+```bash
+# este comando crea las imagenes y los contenedores de docker y posteriormente los levanta
+$ npm run up
+
+# la app estara lista para ser levantada desde el navegador a la direccion http://localhost:3002/
+
+# este comando detiene los contenedores
+$ npm run stop
+
+# este comando elimina los contenedores
+$ npm run rm
+```
+
+## Migraciones
+
+```bash
+# este comando crea la migracion basandose en mis Entities y las aloja en Ruta_Migracion Ej: src/Migration/Prueba
+$ npm run migration:generate Ruta_Migracion 
+
+# este comando crea la carpeta ./dist nuevamente para agregarle las migraciones
+$ npm run build
+
+# este comando es el que corre las migraciones para sicronizar mi aplicacion con la estructura de la BD
+$ npm run migration:run
+
+
+```
+
 ## Running the app
 
 ```bash

@@ -1,29 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { CreateFileDto } from './dto/createFile.dto';
-import { FilesRepository } from './files.repository';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Product } from '../Products/Entities/Product.entity';
+import { CloudinaryService } from './cloudinary.service';
+import { ProductsRepository } from '../Products/Products.respository';
 
 @Injectable()
 export class FilesService {
 
-  constructor (private readonly filesRepository: FilesRepository) {}
+  constructor (private readonly productRepository:ProductsRepository,
+        private readonly cloudinaryService: CloudinaryService
+  ) {}
 
-  create(createFileDto: CreateFileDto) {
-    return 'This action adds a new file';
-  }
-
-  findAll() {
-    return `This action returns all files`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} file`;
-  }
-
-  update(id: string, file: Express.Multer.File) {
-    return this.filesRepository.update(id, file);
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} file`;
+  async update(id: string, file: Express.Multer.File) {
+    const product: Product = await this.productRepository.getProductById(id)
+        if (product) { 
+            const image = await this.cloudinaryService.uploadImage(file);
+            await this.productRepository.updateProduct(id, {imgUrl: image.secure_url});
+            return product;
+        } else {
+            throw new NotFoundException("El producto que intenta actualizar no existe")
+        }
   }
 }
