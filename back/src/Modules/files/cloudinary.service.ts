@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { UploadApiResponse, v2 } from "cloudinary";
-import * as toStream from "buffer-to-stream"
-import { PassThrough } from 'stream';
+//import * as toStream from "buffer-to-stream"
+// import { PassThrough } from 'stream';
+const toStream = require ("buffer-to-stream")
 
 @Injectable()
 export class CloudinaryService {
@@ -17,10 +18,10 @@ export class CloudinaryService {
                             }
                         },
                     );
-                //toStream(file.buffer).pipe(upload);
-                 const bufferStream = new PassThrough();
-                 bufferStream.end(file.buffer);
-                 bufferStream.pipe(upload);
+                    toStream(file.buffer).pipe(upload);
+                    //  const bufferStream = new PassThrough();
+                    //  bufferStream.end(file.buffer);
+                    //  bufferStream.pipe(upload);
              })
     }
 }

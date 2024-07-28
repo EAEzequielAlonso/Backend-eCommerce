@@ -27,7 +27,7 @@ export class AuthService {
             sub: userDB.id, //se suscribe a este user WT
             id: userDB.id,
             email: userDB.email,
-            roles: [userDB.isAdmin ? Role.Admin : Role.User]
+            roles: [userDB.isAdmin ? Role.Admin : Role.User] 
         }
         const token = this.jwtService.sign(userPayload)
         const {password,isAdmin,  ...sendUser} = userDB

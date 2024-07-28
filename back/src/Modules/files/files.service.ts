@@ -15,6 +15,7 @@ export class FilesService {
         if (product) { 
             const image = await this.cloudinaryService.uploadImage(file);
             await this.productRepository.updateProduct(id, {imgUrl: image.secure_url});
+            product.imgUrl = image.secure_url;
             return product;
         } else {
             throw new NotFoundException("El producto que intenta actualizar no existe")

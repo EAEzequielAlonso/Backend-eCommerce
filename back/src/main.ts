@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { loggerGlobal } from './Middlewares/logger.middleware';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import { BadRequestException, InternalServerErrorException, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { UsersService } from './Modules/Users/Users.service';
 import { ProductsService } from './Modules/Products/Products.service';
@@ -28,18 +28,24 @@ async function bootstrap() {
 
   // registra en consola las llamadas a las rutas del servidor
   app.use(loggerGlobal);
+  try { 
+      await app.get(UsersService).preloadUsersSeed()
+      
+      await app.get(CategoryService).preloadCategoriesSeed()
 
-  await app.get(UsersService).preloadUsersSeed()
-  
-  await app.get(CategoryService).preloadCategoriesSeed()
-
-  await app.get(ProductsService).preloadProductsSeed()
+      await app.get(ProductsService).preloadProductsSeed()
+  } catch (e) {
+      throw new InternalServerErrorException("Error al intentar hacer la precarga inicial de Datos");
+  }
 
   //genero el Document Builder donde preconfiguro los datos basicos 
   const swaggerConfig = new DocumentBuilder()
         .setTitle("Backend eCommerce")
         .setDescription("Esta es una API constuida para desarrollar un eCommerce de manera sencilla")
-        .addBearerAuth()
+        .addBearerAuth({
+          type: "http",
+          description: "Ingresa tu Token de seguridad",
+        }, "Autenticacion por Token - JWT")
         .setVersion("1.0")
         .build()
       
@@ -50,3 +56,17 @@ async function bootstrap() {
   await app.listen(3001);
 }
 bootstrap();
+
+
+
+
+
+
+
+
+
+
+
+
+
+// https://github.com/HX-ARomero/pt19-m4-demo

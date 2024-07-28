@@ -18,11 +18,10 @@ const config = {
     logging:false,
     //dropSchema:true,
 
-    //Para las migraciones
-    // definimos donde estan las entidades
+    // definimos donde debe buscar las entidades
     entities: ["dist/**/*.entity{.ts,.js}"], 
 
-    // definimos donde alojar las migraciones
+    // definimos donde estan las migraciones
     migrations: ["dist/migrations/*{.ts,.js}"],
 }
 

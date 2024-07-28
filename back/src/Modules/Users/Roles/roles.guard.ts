@@ -13,7 +13,7 @@ export class RolesGuard implements CanActivate {
         // con getAllAndOverride de reflector. puedo acceder al dato del metadata. le paso la clave que quiero y le paso un array diciendo de donde voy a sacar esa clave.
         const requiredRoles = this.reflector.getAllAndOverride<Role[]>("roles", [
             context.getHandler(),
-            context.getClass(),
+            context.getClass(), 
         ])
         
         const request = context.switchToHttp().getRequest();
@@ -21,8 +21,7 @@ export class RolesGuard implements CanActivate {
         // es importante que valla el auth antes que el roles porque no puedo asignar roles a un usuario que no esta autenticado
         const user = request.user;
         // la funcion some del array devuelve true si cada uno de los roles que hay en el array esta incluido dentro del array "roles" que viene en user"
-        const roles:Array<Role> = user.roles;
-        //console.log("este es el tipo de dato de  user.roles", typeof user.roles.includes(Role.Admin))
+        //const roles:Array<Role> = user.roles;
         const hasRole = () => requiredRoles.some((role) => user?.roles?.includes(role))
         const valid = user && user.roles && hasRole();
         if (!valid) throw new ForbiddenException("No tienes permiso ni acceso a esta ruta")
