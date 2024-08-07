@@ -29,7 +29,7 @@ export class AuthController {
     @ApiBadRequestResponse({description: "Si el usuario esta en al Base de Datos: El usuario ya existe / Si las contrseñas no son iguales: La contraseña y su confirmacion no cohinciden"})
     async signup (@Body() user:CreateUserDto): Promise<Omit<User, "password">> {
         
-        return ErrorManager ({
+        return ErrorManager ({ 
             functionTry: () => this.authService.signup(user), 
             message: "Error al intentar Registrar el Usuario"})
     }

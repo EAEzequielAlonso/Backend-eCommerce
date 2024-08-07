@@ -42,10 +42,7 @@ async function bootstrap() {
   const swaggerConfig = new DocumentBuilder()
         .setTitle("Backend eCommerce")
         .setDescription("Esta es una API constuida para desarrollar un eCommerce de manera sencilla")
-        .addBearerAuth({
-          type: "http",
-          description: "Ingresa tu Token de seguridad",
-        }, "Autenticacion por Token - JWT")
+        .addBearerAuth()
         .setVersion("1.0")
         .build()
       

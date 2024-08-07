@@ -16,12 +16,10 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-      // entender bien que pasa aca.
       ConfigModule.forRoot({
          isGlobal: true,
          load: [typeOrmConfig]
          }),
-      // y aca tambien entender bien que estoy haciendo
       TypeOrmModule.forRootAsync({ 
          inject:[ConfigService],
          useFactory: (configService: ConfigService) => configService.get("typeorm"), 

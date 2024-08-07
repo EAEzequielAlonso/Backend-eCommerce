@@ -10,7 +10,9 @@ export class ProductsRepository {
     constructor(@InjectRepository(Product) private productRepository:Repository<Product>) {}
 
     async getProducts(): Promise<Product[]> {
-        return await this.productRepository.find()
+        return await this.productRepository.find({
+            relations: {category: true, orderDetails: true}
+        })
     }
 
     async getProductById(id: string): Promise<Product> {

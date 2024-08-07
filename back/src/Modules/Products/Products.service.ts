@@ -29,7 +29,7 @@ export class ProductsService {
                     responsePreload.push(`Se Agrego el Producto: ${productCreated.name}`)
                 } 
             } else {
-                if (productExist.orderDetails.length>=1) {
+                if (productExist.orderDetails.length>0) {
                     await this.productsRepository.updateProduct(productExist.id, {...product, category: categoryExist});
                     responsePreload.push(`Se Resetearon los datos del Producto: ${productExist.name}. Esta involucrado en una Orden`)
                 } else {
@@ -48,7 +48,8 @@ export class ProductsService {
     }
 
     async getProducts(page:number, limit:number): Promise<Product[]> {
-       const start:number = (page-1) * limit;
+        // throw new Error ("este es el throw error")
+        const start:number = (page-1) * limit; 
         const end:number = page * limit; 
         const productPaginated: Product[] = await this.productsRepository.getProducts()
         if (productPaginated.length>0) return productPaginated.slice(start, end);

@@ -33,20 +33,23 @@ export class OrdersService {
     async addOrder(order: CreateOrderDto): Promise<Order | string> {
         const userFinded:User = await this.userRepository.findOneBy({id : order.userId})
         if (userFinded) {
+            console.log("userFinded", userFinded)
             let productsList: Product[] = [];
             let totalOrder: number = 0;
+            console.log("order.products", order.products)
             for (let product of order.products) {
-                const productFinded: Product = await this.productRepository.findOneBy({id:product.id})
+                const productFinded: Product = await this.productRepository.findOneBy({id:product})
                 if (productFinded) {
+                    console.log("productFinded", productFinded)
                     if (productFinded.stock > 0) {
                         productsList.push(productFinded);
-                        productFinded.stock = productFinded.stock-1;
+                        console.log(`precio como viene: ${productFinded.price} precio convertido: ${Number(productFinded.price)}`)
                         totalOrder = totalOrder + Number(productFinded.price);
-                        await this.productRepository.save( productFinded );
+                        await this.productRepository.save( {...productFinded, stock:productFinded.stock-1} );
                     }
                 } 
             }
-            if (productsList) {
+            if (productsList.length>0) {
                 const saveOrderDitail: OrderDetail = await this.orderDetailRepository.save({price:totalOrder, products:productsList});
                 const orderCreated: Partial<Order> = {user: userFinded, date: new Date(), orderDetails:saveOrderDitail}
                 const saveOrder = await this.ordersRepository.save(orderCreated);

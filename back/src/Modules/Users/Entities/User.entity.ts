@@ -32,7 +32,7 @@ export class User {
     @Column({length:50})
     city: string
 
-    @OneToMany(() => Order, (order) => order.user)
+    @OneToMany(() => Order, (order) => order.user, {onDelete : "CASCADE" , cascade : true})
     orders: Order[]
 
 }

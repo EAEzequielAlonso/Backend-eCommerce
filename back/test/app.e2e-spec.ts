@@ -19,7 +19,7 @@ describe('AppController (e2e)', () => {
     const req = await request (app.getHttpServer()).get("/users");
 
     expect(req.status).toBe(401);
-    expect (req.body.error).toBe("Bearer token no encontrado");
+    expect (req.body.error).toBe("No se ha encontrado el Bearer token");
     expect (req.body).toBeInstanceOf(Object);
 
   });
@@ -36,7 +36,7 @@ describe('AppController (e2e)', () => {
     const req = await request (app.getHttpServer()).get("/products/cad95d9d-9139-4212-811a-139ce41271f6");
 
     expect(req.body.status).toBe(404);
-    expect (req.body.error).toBe("Producto inexistente");
+    expect (req.body.error).toBe("El producto buscado no existe");
     expect (req.body).toBeInstanceOf(Object);
   });
 

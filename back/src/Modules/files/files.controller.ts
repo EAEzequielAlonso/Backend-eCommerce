@@ -17,7 +17,6 @@ export class FilesController {
   @HttpCode(200)
   @ApiInternalServerErrorResponse({description: "Error al intentar actualizar la imagen del producto"})
   @ApiNotFoundResponse({description:"El producto que intenta actualizar no existe"})
-
   @UseInterceptors(FileInterceptor("file"))
   @ApiConsumes('multipart/form-data')
   @ApiBody({ description: `Debe subir el Archivo de Imagen`, schema: {

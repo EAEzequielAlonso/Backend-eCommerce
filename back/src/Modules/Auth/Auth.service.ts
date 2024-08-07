@@ -8,7 +8,7 @@ import * as bcrypt from "bcrypt"
 import { Role } from "../Users/Roles/roles.enum";
 
 @Injectable () 
-export class AuthService {
+export class AuthService { 
 
     constructor (private readonly usersRepository: UsersRepository,
         private readonly jwtService: JwtService) {}

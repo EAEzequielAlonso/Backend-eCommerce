@@ -7,7 +7,7 @@ export class CreateOrderDto {
     @IsUUID('4', { message: 'userID must be a valid UUID version 4' })
     @ApiProperty({
         description: "Es el UUID del usuario que emite la Orden. Es Obligatorio",
-        example: "123ui-456poiu-456ñl5-456gft",
+        example: "123uiqwe-456poiu-456ñl5-456gftqwe",
     })
     userId: string
 
