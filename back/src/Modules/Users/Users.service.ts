@@ -8,7 +8,7 @@ import * as bcrypt from "bcrypt"
 export class UsersService {
         
     constructor (private readonly usersRepository: UsersRepository){}
-
+ 
     async preloadUsersSeed(): Promise<string> {
        let cont:number = 0;
         for (const user of preloadUsers) {

@@ -1,5 +1,6 @@
 import { IsEmail, IsEmpty, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator"
 import { ApiHideProperty, ApiProperty, ApiPropertyOptional } from "@nestjs/swagger"
+import { Role } from "../Roles/roles.enum"
 
 export class CreateUserDto {
     @IsNotEmpty()

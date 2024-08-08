@@ -16,12 +16,12 @@ export class UsersController {
 
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Retorna todos los usuarios existentes segun la paginacion ingresada'})
-    @Get()
-    @Roles(Role.Admin)
-    @UseGuards(AuthGuard, RolesGuard)
-    @HttpCode(200)
     @ApiNotFoundResponse({description:"No hay usuarios en la Base de Datos"})
     @ApiInternalServerErrorResponse({description: "Error al intentar mostrar los usuarios"})
+    @Get()
+    @HttpCode(200)
+    @Roles(Role.Admin)
+    @UseGuards(AuthGuard, RolesGuard)
     async getUsers (@Query("page") page:number = 1, @Query("limit") limit:number = 5,): Promise<User[]> {
         
         return ErrorManager ({
@@ -32,12 +32,12 @@ export class UsersController {
 
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Retorna el usuario correspondiente al ID ingresado'})
-    @Get(":id")
-    @UseGuards(AuthGuard)
-    @HttpCode(200)
     @ApiNotFoundResponse({description:"El usuario buscado no Existe"})
     @ApiInternalServerErrorResponse({description: "Error al intentar mostrar el usuario"})
     @ApiBadRequestResponse({description: "Validation failed (uuid is expected)"})
+    @Get(":id")
+    @HttpCode(200)
+    @UseGuards(AuthGuard)
     async getUserById(@Param("id", ParseUUIDPipe) id: string): Promise<User> {
         
         return ErrorManager ({
@@ -59,12 +59,12 @@ export class UsersController {
     @ApiBearerAuth()
     @ApiOperation({ summary: 'Actualiza los datos pasador por body del usuario correspondiente al ID ingresado'})
     @ApiBody({description: "Ingrese solo los datos a modificar", type: UpdateUserDto})
-    @Put(":id")
-    @UseGuards(AuthGuard)
-    @HttpCode(200)
     @ApiInternalServerErrorResponse({description: "Error al Intentar Actualizar el Usuario"})
     @ApiNotFoundResponse({description:"El usuario que intenta actualizar no existe"})
     @ApiUnauthorizedResponse({description: "Si no se envia el token: 'No se ha encontrado el Bearer token' // Si el token no es valido: 'El Token es Invalido'"})
+    @Put(":id")
+    @HttpCode(200)
+    @UseGuards(AuthGuard)
     async updateUser(@Param("id", ParseUUIDPipe) id: string, @Body() user:UpdateUserDto): Promise<string> {
 
         return ErrorManager ({functionTry: () => this.usersService.updateUser(id, user), 

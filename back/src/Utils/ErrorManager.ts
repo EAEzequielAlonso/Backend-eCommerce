@@ -11,7 +11,6 @@ export const ErrorManager = async (dataEntry: DataDto ): Promise<any> => {
     try {
         return await dataEntry.functionTry();
     } catch (error) {
-        console.log("estamos adentro del Error Manager")
         const { codeError, message, priority} = dataEntry
         throw new HttpException({
             status: priority ? codeError ?? error.status : error.status ?? codeError, 

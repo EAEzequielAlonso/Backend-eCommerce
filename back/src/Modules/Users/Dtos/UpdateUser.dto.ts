@@ -1,5 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger"
 import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Matches, MaxLength, MinLength } from "class-validator"
+import { Role } from "../Roles/roles.enum"
 
 export class UpdateUserDto {
     @IsNotEmpty()

@@ -11,7 +11,7 @@ export class UsersRepository {
     async getUsers(page: number, limit:number): Promise<User[]> {
         // devuelve todos los datos menos el password
         return await this.userRepository.find({
-            select: ["id", "name", "email", "isAdmin", "phone", "address", "country", "city", "orders"],
+            select: ["id", "name", "email", "phone", "address", "country", "city", "orders"],
             skip: (page-1)*limit,
             take: limit
         })
@@ -35,7 +35,7 @@ export class UsersRepository {
     async createUser(user: Partial<User>):Promise<User> {
         return await this.userRepository.save(user);
     }
-
+ 
     async updateUser(id: string, user: Partial<User>): Promise<UpdateResult> {
         return await this.userRepository.update(id, user)
     }

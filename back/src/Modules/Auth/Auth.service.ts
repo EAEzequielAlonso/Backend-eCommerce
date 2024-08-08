@@ -29,15 +29,16 @@ export class AuthService {
             email: userDB.email,
             roles: [userDB.isAdmin ? Role.Admin : Role.User] 
         }
+        console.log("userPayload " , userPayload)
         const token = this.jwtService.sign(userPayload)
-        const {password,isAdmin,  ...sendUser} = userDB
+        const {password,  ...sendUser} = userDB
         return {...sendUser, token: token}
     }
 
     async signup(user: CreateUserDto): Promise<Omit<User, "password">> {
         const userDB = await this.usersRepository.getUserByEmail(user.email)
         if (userDB) throw new BadRequestException("El usuario ya existe");
-        if (user.password !== user.passwordConfirm) throw new BadRequestException("La contraseña y su confirmacion no cohinciden")
+        //if (user.password !== user.passwordConfirm) throw new BadRequestException("La contraseña y su confirmacion no coinciden")
         const passwordHash= await bcrypt.hash(user.password,10)
         const {passwordConfirm, ...createUser} = user
         const userSave = await this.usersRepository.createUser({...createUser, password: passwordHash});

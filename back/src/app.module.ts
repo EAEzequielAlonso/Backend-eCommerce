@@ -3,7 +3,6 @@ import { ProductsModule } from './Modules/Products/Products.module';
 import { AuthModule } from './Modules/Auth/Auth.module';
 import { UserModule } from './Modules/Users/Users.module';
 import { UserDataMiddleware } from './Modules/Users/Middlewares/user.middleware';
-import { AuthMiddleware } from './Modules/Auth/Middlewares/auth.middleware';
 import { ProductDataMiddleware } from './Modules/Products/Middlewares/Product.middleware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeOrmConfig from "./config/typeorm"
@@ -12,6 +11,7 @@ import { CategoryModule } from './Modules/Categories/Category.module';
 import { OrdersModule } from './Modules/Orders/orders.module';
 import { FilesModule } from './Modules/files/files.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ValidPasswordMiddleware } from './Modules/Auth/Middlewares/ValidPassword.middleware';
 
 
 @Module({
@@ -37,7 +37,14 @@ import { JwtModule } from '@nestjs/jwt';
   providers: [],
 })
 export class AppModule {
- /* configure(consumer: MiddlewareConsumer) {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(ValidPasswordMiddleware)
+      .forRoutes(
+        { path: "auth/singup", method: RequestMethod.POST }
+      )
+    }
+  /* configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(UserDataMiddleware)
       .forRoutes(
@@ -46,7 +53,7 @@ export class AppModule {
       )
     consumer
       .apply(AuthMiddleware)
-      .forRoutes({path: "auth/singn", method: RequestMethod.POST})
+      .forRoutes({path: "auth/singup", method: RequestMethod.POST})
     consumer
       .apply(ProductDataMiddleware)
       .forRoutes(
